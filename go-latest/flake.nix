@@ -4,13 +4,12 @@
     utils.url = "github:numtide/flake-utils";
   };
 
-  outputs = { self, nixpkgs, utils, fenix }:
+  outputs = { self, nixpkgs, utils }:
     utils.lib.eachDefaultSystem (system:
       let
         pkgs = import nixpkgs {
           inherit system;
         };
-        toolchain = fenix.packages."${system}".stable;
       in
       {
         devShell = with pkgs; mkShell {
