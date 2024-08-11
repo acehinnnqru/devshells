@@ -23,7 +23,7 @@
 
             golangci-lint
             gopls
-
+            gotools
           ] ++ lib.optionals stdenv.isDarwin (with darwin;
             with apple_sdk.frameworks; [
               libiconv
