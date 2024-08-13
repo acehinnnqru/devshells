@@ -29,7 +29,7 @@
               "rustc"
               "rustfmt"
             ])
-            rust-analyzer-nightly
+            rust-analyzer
           ] ++ lib.optionals stdenv.isDarwin (with darwin;
             with apple_sdk.frameworks; [
               libiconv
