@@ -6,3 +6,6 @@ test/
 
 .DS_Store
 .local/
+
+result/
+result
