@@ -2,13 +2,18 @@
   commonPackages = with pkgs; [
     libiconv
     gcc
-    yarn
+    pnpm
     typescript-language-server
     vscode-langservers-extracted
-    prettierd
+    oxlint
+    oxfmt
   ];
 in {
   "22" = {
-    packages = commonPackages ++ [pkgs.nodejs_22 pkgs.pnpm];
+    packages =
+      commonPackages
+      ++ [
+        pkgs.nodejs_22
+      ];
   };
 }
