@@ -1,18 +1,11 @@
 {...}: {
   perSystem = {
     pkgs,
-    basePackages,
+    toolsets,
     ...
-  }: {
-    devShells."java-android" = pkgs.mkShell {
-      packages =
-        basePackages
-        ++ (with pkgs; [
-          jdk17
-          maven
-          gradle
-          ktfmt
-        ]);
-    };
+  }: let
+    inherit (toolsets.lib) combine mkShellArgs;
+  in {
+    devShells."java-android" = pkgs.mkShell (mkShellArgs (combine [toolsets.base toolsets.java.android]));
   };
 }

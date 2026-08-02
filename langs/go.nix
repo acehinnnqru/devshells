@@ -1,54 +1,15 @@
-{inputs, ...}: {
+{...}: {
   perSystem = {
     pkgs,
-    system,
-    basePackages,
+    toolsets,
     ...
   }: let
-    pkgsGo124 = import inputs.nixpkgs-go124 {inherit system;};
-    pkgsGo125 = import inputs.nixpkgs-go125 {inherit system;};
-
-    goCommonPackages = with pkgs; [
-      libiconv
-      gcc
-      golangci-lint
-      gotools
-      gomodifytags
-    ];
+    inherit (toolsets.lib) combine mkShellArgs;
   in {
     devShells = {
-      "go-latest" = pkgs.mkShell {
-        packages =
-          basePackages
-          ++ goCommonPackages
-          ++ (with pkgs; [
-            go
-            gopls
-            delve
-          ]);
-      };
-
-      "go-1_25" = pkgs.mkShell {
-        packages =
-          basePackages
-          ++ goCommonPackages
-          ++ (with pkgsGo125; [
-            go_1_25
-            gopls
-            delve
-          ]);
-      };
-
-      "go-1_24" = pkgs.mkShell {
-        packages =
-          basePackages
-          ++ goCommonPackages
-          ++ (with pkgsGo124; [
-            go_1_24
-            gopls
-            delve
-          ]);
-      };
+      "go-latest" = pkgs.mkShell (mkShellArgs (combine [toolsets.base toolsets.go.latest]));
+      "go-1_25" = pkgs.mkShell (mkShellArgs (combine [toolsets.base toolsets.go."1_25"]));
+      "go-1_24" = pkgs.mkShell (mkShellArgs (combine [toolsets.base toolsets.go."1_24"]));
     };
   };
 }

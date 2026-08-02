@@ -1,30 +1,14 @@
-{inputs, ...}: {
+{...}: {
   perSystem = {
     pkgs,
-    system,
-    basePackages,
+    toolsets,
     ...
-  }: {
+  }: let
+    inherit (toolsets.lib) combine mkShellArgs;
+  in {
     devShells = {
-      zig = pkgs.mkShell {
-        packages =
-          basePackages
-          ++ (with pkgs; [
-            zls
-            zig
-          ]);
-      };
-
-      "zig-latest" = pkgs.mkShell {
-        packages =
-          basePackages
-          ++ (with pkgs; [
-            zls
-          ])
-          ++ [
-            inputs.zig-overlay.packages.${system}.master
-          ];
-      };
+      zig = pkgs.mkShell (mkShellArgs (combine [toolsets.base toolsets.zig.default]));
+      "zig-latest" = pkgs.mkShell (mkShellArgs (combine [toolsets.base toolsets.zig.latest]));
     };
   };
 }

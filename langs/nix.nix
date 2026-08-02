@@ -1,11 +1,11 @@
 {...}: {
   perSystem = {
     pkgs,
-    basePackages,
+    toolsets,
     ...
-  }: {
-    devShells.nix = pkgs.mkShell {
-      packages = basePackages;
-    };
+  }: let
+    inherit (toolsets.lib) mkShellArgs;
+  in {
+    devShells.nix = pkgs.mkShell (mkShellArgs toolsets.base);
   };
 }

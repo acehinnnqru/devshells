@@ -16,10 +16,7 @@
     nixpkgs-go124.url = "github:NixOS/nixpkgs/418468ac9527e799809c900eda37cbff999199b6";
   };
 
-  outputs = inputs @ {
-    flake-parts,
-    ...
-  }:
+  outputs = inputs @ {flake-parts, ...}:
     flake-parts.lib.mkFlake {inherit inputs;} {
       systems = [
         "x86_64-linux"
@@ -28,9 +25,13 @@
         "aarch64-darwin"
       ];
 
+      flake.templates.default = {
+        description = "composable devshell template — uncomment the toolsets you need";
+        path = ./template;
+      };
+
       imports = [
-        ./common.nix
-        ./templates/default.nix
+        ./toolsets/default.nix
 
         ./langs/go.nix
         ./langs/java.nix

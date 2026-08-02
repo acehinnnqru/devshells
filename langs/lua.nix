@@ -1,17 +1,11 @@
 {...}: {
   perSystem = {
     pkgs,
-    basePackages,
+    toolsets,
     ...
-  }: {
-    devShells.lua = pkgs.mkShell {
-      packages =
-        basePackages
-        ++ (with pkgs; [
-          lua
-          stylua
-          lua-language-server
-        ]);
-    };
+  }: let
+    inherit (toolsets.lib) combine mkShellArgs;
+  in {
+    devShells.lua = pkgs.mkShell (mkShellArgs (combine [toolsets.base toolsets.lua.default]));
   };
 }

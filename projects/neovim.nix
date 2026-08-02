@@ -1,15 +1,15 @@
 {...}: {
   perSystem = {
     pkgs,
-    basePackages,
+    toolsets,
     ...
   }: let
-    inherit (pkgs) lib stdenv darwin;
+    inherit (toolsets.lib) combine mkShellArgs;
   in {
-    devShells.neovim = pkgs.mkShell {
-      packages =
-        basePackages
-        ++ (with pkgs; [
+    devShells.neovim = pkgs.mkShell (mkShellArgs (combine [
+      toolsets.base
+      {
+        packages = with pkgs; [
           tree-sitter
           gcc
           cmake
@@ -19,7 +19,8 @@
           luajit
           stylua
           lua-language-server
-        ]);
-    };
+        ];
+      }
+    ]));
   };
 }

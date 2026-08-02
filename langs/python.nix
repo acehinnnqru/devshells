@@ -1,48 +1,15 @@
 {...}: {
   perSystem = {
     pkgs,
-    basePackages,
+    toolsets,
     ...
-  }: {
+  }: let
+    inherit (toolsets.lib) combine mkShellArgs;
+  in {
     devShells = {
-      "python-311" = pkgs.mkShell {
-        packages =
-          basePackages
-          ++ (with pkgs; [
-            python311
-            uv
-            ruff
-            ty
-          ]);
-
-        UV_PYTHON_DOWNLOADS = "never";
-      };
-
-      "python-313" = pkgs.mkShell {
-        packages =
-          basePackages
-          ++ (with pkgs; [
-            python313
-            uv
-            ruff
-            ty
-          ]);
-
-        UV_PYTHON_DOWNLOADS = "never";
-      };
-
-      "python-314" = pkgs.mkShell {
-        packages =
-          basePackages
-          ++ (with pkgs; [
-            python314
-            uv
-            ruff
-            ty
-          ]);
-
-        UV_PYTHON_DOWNLOADS = "never";
-      };
+      "python-311" = pkgs.mkShell (mkShellArgs (combine [toolsets.base toolsets.python."311"]));
+      "python-313" = pkgs.mkShell (mkShellArgs (combine [toolsets.base toolsets.python."313"]));
+      "python-314" = pkgs.mkShell (mkShellArgs (combine [toolsets.base toolsets.python."314"]));
     };
   };
 }

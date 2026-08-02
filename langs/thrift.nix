@@ -1,15 +1,11 @@
 {...}: {
   perSystem = {
     pkgs,
-    basePackages,
+    toolsets,
     ...
-  }: {
-    devShells.thrift = pkgs.mkShell {
-      packages =
-        basePackages
-        ++ (with pkgs; [
-          thrift-ls
-        ]);
-    };
+  }: let
+    inherit (toolsets.lib) combine mkShellArgs;
+  in {
+    devShells.thrift = pkgs.mkShell (mkShellArgs (combine [toolsets.base toolsets.thrift.default]));
   };
 }
