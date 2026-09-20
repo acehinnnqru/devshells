@@ -16,4 +16,11 @@ in {
         pkgs.nodejs_22
       ];
   };
+  "24" = {
+    packages =
+      commonPackages
+      ++ [
+        pkgs.nodejs_24
+      ];
+  };
 }

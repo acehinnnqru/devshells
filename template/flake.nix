@@ -35,6 +35,7 @@
 
           ## Node.js
           # ts.nodejs."22"
+          # ts.nodejs."24"
 
           ## Python
           # ts.python."314"
