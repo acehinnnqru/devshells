@@ -8,6 +8,7 @@
   in {
     devShells = {
       "nodejs-22" = pkgs.mkShell (mkShellArgs (combine [toolsets.base toolsets.nodejs."22"]));
+      "nodejs-24" = pkgs.mkShell (mkShellArgs (combine [toolsets.base toolsets.nodejs."24"]));
     };
   };
 }
